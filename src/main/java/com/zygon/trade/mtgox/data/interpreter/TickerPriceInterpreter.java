@@ -16,8 +16,6 @@ import java.math.RoundingMode;
  */
 public class TickerPriceInterpreter implements DataHandler.Interpreter<Ticker> {
 
-//    private static final MathContext MATH_CTX = new MathContext(2);
-    
     @Override
     public NumericIndication interpret(Ticker in) {
         return new NumericIndication(in.getTradableIdentifier(), Classification.PRICE, in.getTimestamp(),
