@@ -6,12 +6,12 @@ package com.zygon.trade.mtgox.modules;
 
 import au.com.bytecode.opencsv.CSVWriter;
 import com.xeiam.xchange.Currencies;
-import com.zygon.exchange.market.data.DataListener;
-import com.zygon.exchange.market.data.DataProcessor;
-import com.zygon.exchange.market.data.DataProcessor.Interpreter;
-import com.zygon.exchange.market.data.provider.AbstractDataProvider;
-import com.zygon.exchange.market.data.provider.DataLogger;
-import com.zygon.exchange.modules.data.DataModule;
+import com.zygon.trade.market.data.DataListener;
+import com.zygon.trade.market.data.DataProcessor;
+import com.zygon.trade.market.data.DataProcessor.Interpreter;
+import com.zygon.trade.market.data.provider.AbstractDataProvider;
+import com.zygon.trade.market.data.provider.DataLogger;
+import com.zygon.trade.modules.data.DataModule;
 import com.zygon.trade.mtgox.data.MtGoxTickerProvider;
 import com.zygon.trade.mtgox.data.Ticker;
 import com.zygon.trade.mtgox.data.interpreter.TickerPriceInterpreter;

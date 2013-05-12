@@ -4,7 +4,7 @@
 
 package com.zygon.trade.mtgox.data;
 
-import com.zygon.exchange.market.Message;
+import com.zygon.trade.market.Message;
 import java.math.BigDecimal;
 import java.util.Date;
 import org.joda.money.BigMoney;

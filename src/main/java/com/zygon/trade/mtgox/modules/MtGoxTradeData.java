@@ -6,11 +6,11 @@ package com.zygon.trade.mtgox.modules;
 
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.dto.marketdata.Trade;
-import com.zygon.exchange.market.data.DataListener;
-import com.zygon.exchange.market.data.DataProcessor;
-import com.zygon.exchange.market.data.DataProcessor.Interpreter;
-import com.zygon.exchange.market.data.DataProvider;
-import com.zygon.exchange.modules.data.DataModule;
+import com.zygon.trade.market.data.DataListener;
+import com.zygon.trade.market.data.DataProcessor;
+import com.zygon.trade.market.data.DataProcessor.Interpreter;
+import com.zygon.trade.market.data.DataProvider;
+import com.zygon.trade.modules.data.DataModule;
 import com.zygon.trade.mtgox.data.MtGoxTradeProvider;
 import com.zygon.trade.mtgox.data.interpreter.TradePriceInterpreter;
 import com.zygon.trade.mtgox.data.interpreter.TradeVolumeInterpreter;

@@ -5,11 +5,11 @@
 package com.zygon.trade.mtgox.modules;
 
 import com.xeiam.xchange.Currencies;
-import com.zygon.exchange.market.model.indication.IndicationListener;
-import com.zygon.exchange.market.model.indication.InformationManager;
-import com.zygon.exchange.market.model.indication.numeric.NumericIndications;
-import com.zygon.exchange.modules.data.DataModule;
-import com.zygon.exchange.modules.model.InformationModule;
+import com.zygon.trade.market.model.indication.IndicationListener;
+import com.zygon.trade.market.model.indication.InformationManager;
+import com.zygon.trade.market.model.indication.numeric.NumericIndications;
+import com.zygon.trade.modules.data.DataModule;
+import com.zygon.trade.modules.model.InformationModule;
 import java.util.ArrayList;
 import java.util.List;
 

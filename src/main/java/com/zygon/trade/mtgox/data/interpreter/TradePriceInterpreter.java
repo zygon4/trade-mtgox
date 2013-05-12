@@ -4,10 +4,10 @@
 
 package com.zygon.trade.mtgox.data.interpreter;
 
-import com.zygon.exchange.market.data.DataProcessor;
+import com.zygon.trade.market.data.DataProcessor;
 import com.xeiam.xchange.dto.marketdata.Trade;
-import com.zygon.exchange.market.model.indication.numeric.NumericIndication;
-import com.zygon.exchange.market.model.indication.Classification;
+import com.zygon.trade.market.model.indication.numeric.NumericIndication;
+import com.zygon.trade.market.model.indication.Classification;
 
 /**
  *
