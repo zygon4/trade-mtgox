@@ -5,7 +5,7 @@
 package com.zygon.trade.mtgox.data.interpreter;
 
 import com.zygon.exchange.market.model.indication.numeric.NumericIndication;
-import com.zygon.exchange.market.data.DataHandler;
+import com.zygon.exchange.market.data.DataProcessor;
 import com.zygon.exchange.market.model.indication.Classification;
 import com.zygon.trade.mtgox.data.Ticker;
 import java.math.RoundingMode;
@@ -14,7 +14,7 @@ import java.math.RoundingMode;
  *
  * @author zygon
  */
-public class TickerPriceInterpreter implements DataHandler.Interpreter<Ticker> {
+public class TickerPriceInterpreter implements DataProcessor.Interpreter<Ticker> {
 
     @Override
     public NumericIndication interpret(Ticker in) {
