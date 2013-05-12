@@ -6,7 +6,7 @@ package com.zygon.trade.mtgox.modules;
 
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.dto.marketdata.Trade;
-import com.zygon.exchange.market.data.DataManager;
+import com.zygon.exchange.market.data.DataListener;
 import com.zygon.exchange.market.data.DataProcessor;
 import com.zygon.exchange.market.data.DataProcessor.Interpreter;
 import com.zygon.exchange.market.data.DataProvider;
@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class MtGoxTradeData extends DataModule {
 
-    private static DataManager createDataManager() {
+    private static DataListener createDataListener() {
         DataProvider<Trade> provider = new MtGoxTradeProvider(Currencies.BTC, Currencies.USD);
         
         List<Interpreter<Trade>> interpreters = new ArrayList<>();
@@ -33,10 +33,10 @@ public class MtGoxTradeData extends DataModule {
         List<DataProcessor<Trade>> dataHandlers = new ArrayList<>();
         dataHandlers.add(new DataProcessor<>("mtgox_trade_data_handler", interpreters));
         
-        return new DataManager<>("MtGox trade mgmr", provider, dataHandlers);
+        return new DataListener<>("MtGox trade mgmr", provider, dataHandlers);
     }
     
     public MtGoxTradeData(String name) {
-        super(name, createDataManager());
+        super(name, createDataListener());
     }
 }

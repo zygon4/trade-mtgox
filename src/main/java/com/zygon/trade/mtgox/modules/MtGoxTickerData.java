@@ -6,7 +6,7 @@ package com.zygon.trade.mtgox.modules;
 
 import au.com.bytecode.opencsv.CSVWriter;
 import com.xeiam.xchange.Currencies;
-import com.zygon.exchange.market.data.DataManager;
+import com.zygon.exchange.market.data.DataListener;
 import com.zygon.exchange.market.data.DataProcessor;
 import com.zygon.exchange.market.data.DataProcessor.Interpreter;
 import com.zygon.exchange.market.data.provider.AbstractDataProvider;
@@ -68,7 +68,7 @@ public class MtGoxTickerData extends DataModule {
         }
     }
     
-    private static DataManager createDataManager() {
+    private static DataListener createListener() {
         AbstractDataProvider<Ticker> provider = new MtGoxTickerProvider(Currencies.BTC, Currencies.USD);
         
         provider.setLogger(new TickerLogger());
@@ -79,10 +79,10 @@ public class MtGoxTickerData extends DataModule {
         List<DataProcessor> dataHandlers = new ArrayList<>();
         dataHandlers.add(new DataProcessor("mtgox_ticker_data_handler", interpreters));
         
-        return new DataManager("MtGox Ticker mgmr", provider, dataHandlers);
+        return new DataListener("MtGox Ticker mgmr", provider, dataHandlers);
     }
 
     public MtGoxTickerData(String name) {
-        super(name, createDataManager());
+        super(name, createListener());
     }
 }
