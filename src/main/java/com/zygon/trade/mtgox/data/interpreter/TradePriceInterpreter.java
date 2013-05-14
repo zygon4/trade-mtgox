@@ -6,8 +6,7 @@ package com.zygon.trade.mtgox.data.interpreter;
 
 import com.zygon.trade.market.data.DataProcessor;
 import com.xeiam.xchange.dto.marketdata.Trade;
-import com.zygon.trade.market.model.indication.numeric.NumericIndication;
-import com.zygon.trade.market.model.indication.Classification;
+import com.zygon.trade.market.model.indication.numeric.Price;
 
 /**
  *
@@ -16,8 +15,8 @@ import com.zygon.trade.market.model.indication.Classification;
 public class TradePriceInterpreter implements DataProcessor.Interpreter<Trade> {
     
     @Override
-    public NumericIndication interpret(Trade in) {
-        return new NumericIndication(in.getTradableIdentifier(), Classification.PRICE, 
-                in.getTimestamp().getTime(), in.getPrice().getAmount().doubleValue());
+    public Price interpret(Trade in) {
+        return new Price(in.getTradableIdentifier(), in.getTimestamp().getTime(), 
+                in.getPrice().getAmount().doubleValue());
     }
 }
