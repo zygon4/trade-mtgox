@@ -7,6 +7,7 @@ package com.zygon.trade.mtgox.data.interpreter;
 import com.google.common.collect.MinMaxPriorityQueue;
 import com.zygon.trade.market.data.DataProcessor;
 import com.zygon.trade.market.model.indication.Aggregation;
+import com.zygon.trade.market.model.indication.Classification;
 import com.zygon.trade.market.model.indication.numeric.NumericIndication;
 import com.zygon.trade.market.model.indication.numeric.SimpleMovingAverage;
 import com.zygon.trade.mtgox.data.Ticker;
@@ -62,6 +63,6 @@ public class TickerSMAInterpreter implements DataProcessor.Interpreter<Ticker> {
         
         double averagePrice = this.getAveragePrice();
         
-        return new SimpleMovingAverage(in.getTradableIdentifier(), in.getTimestamp(), averagePrice, this.aggregation);
+        return new SimpleMovingAverage(in.getTradableIdentifier(), Classification.PRICE, in.getTimestamp(), averagePrice, this.aggregation);
     }
 }
