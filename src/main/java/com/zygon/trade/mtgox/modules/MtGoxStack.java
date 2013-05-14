@@ -19,13 +19,14 @@ import java.util.List;
  */
 public class MtGoxStack extends InformationModule {
 
-    private static final NumericIndications INDICATIONS = new NumericIndications(Currencies.BTC);
+    private static final NumericIndications INDICATIONS = new NumericIndications(Currencies.BTC, null);
     
     private static InformationManager getInformationLayer(String name, DataModule data) {
         
         List<IndicationListener> indications = new ArrayList<>();
 
-        indications.add(INDICATIONS.SMA_15_SEC);
+        indications.add(INDICATIONS.SMA_15_MIN);
+        indications.add(INDICATIONS.SMA_60_MIN);
         
         InformationManager mgmt = new InformationManager(name, indications);
         data.getDataManager().setInfoHandler(mgmt);
