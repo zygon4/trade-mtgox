@@ -11,6 +11,7 @@ import com.zygon.trade.market.model.indication.numeric.SMA60Min;
 import com.zygon.trade.market.model.indication.numeric.SimpleMovingAverage;
 import com.zygon.trade.modules.data.DataModule;
 import com.zygon.trade.modules.model.InformationModule;
+import com.zygon.trade.mtgox.strategy.SimpleSMAProcessor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class MtGoxStack extends InformationModule {
 
         List<IndicationListener> indications = new ArrayList<>();
 
-        IndicationListener<SimpleMovingAverage> listener = new IndicationListener<>("sma", new Selector(SMA15Min.ID, SMA60Min.ID), null);
+        IndicationListener<SimpleMovingAverage> listener = new IndicationListener<>("sma", new Selector(SMA15Min.ID, SMA60Min.ID), new SimpleSMAProcessor());
 
         indications.add(listener);
 
