@@ -13,7 +13,7 @@ import org.joda.money.BigMoney;
  *
  * @author zygon
  */
-public class Ticker extends Message {
+public class Ticker extends Message implements Comparable<Ticker>{
     
     private final String tradableIdentifier;
     private final  BigMoney last;
@@ -44,6 +44,11 @@ public class Ticker extends Message {
                 tick.getHigh(), tick.getLow(), tick.getVolume(), tick.getTimestamp().getTime());
     }
 
+    @Override
+    public int compareTo(Ticker t) {
+        return this.getTimestamp() < t.getTimestamp() ? -1 : this.getTimestamp() > t.getTimestamp() ? 1 : 0;
+    }
+    
     public BigMoney getAsk() {
         return ask;
     }

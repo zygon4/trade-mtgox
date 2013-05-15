@@ -16,8 +16,10 @@ import java.math.RoundingMode;
 public class TickerPriceInterpreter implements DataProcessor.Interpreter<Ticker> {
 
     @Override
-    public Price interpret(Ticker in) {
-        return new Price(in.getTradableIdentifier(), in.getTimestamp(), 
-                in.getAsk().plus(in.getBid()).dividedBy(2, RoundingMode.UP).getAmount().doubleValue());
+    public Price[] interpret(Ticker in) {
+        return new Price[] {
+            new Price (in.getTradableIdentifier(), in.getTimestamp(), 
+                in.getAsk().plus(in.getBid()).dividedBy(2, RoundingMode.UP).getAmount().doubleValue())
+        };
     }
 }

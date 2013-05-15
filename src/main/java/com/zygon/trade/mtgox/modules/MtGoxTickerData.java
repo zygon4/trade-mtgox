@@ -76,8 +76,8 @@ public class MtGoxTickerData extends DataModule {
         provider.setLogger(new TickerLogger());
         
         List<Interpreter> interpreters = new ArrayList<>();
-        interpreters.add(new TickerSMAInterpreter(new Aggregation(Aggregation.Type.AVG, 15, TimeUnit.MINUTES)));
-        interpreters.add(new TickerSMAInterpreter(new Aggregation(Aggregation.Type.AVG, 60, TimeUnit.MINUTES)));
+        interpreters.add(new TickerSMAInterpreter(new Aggregation(Aggregation.Type.AVG, Aggregation.Duration._15, TimeUnit.MINUTES)));
+        interpreters.add(new TickerSMAInterpreter(new Aggregation(Aggregation.Type.AVG, Aggregation.Duration._60, TimeUnit.MINUTES)));
         
         List<DataProcessor> dataHandlers = new ArrayList<>();
         dataHandlers.add(new DataProcessor("mtgox_ticker_data_handler", interpreters));

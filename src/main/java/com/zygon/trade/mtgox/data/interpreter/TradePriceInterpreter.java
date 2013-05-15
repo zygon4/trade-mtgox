@@ -15,8 +15,10 @@ import com.zygon.trade.market.model.indication.numeric.Price;
 public class TradePriceInterpreter implements DataProcessor.Interpreter<Trade> {
     
     @Override
-    public Price interpret(Trade in) {
-        return new Price(in.getTradableIdentifier(), in.getTimestamp().getTime(), 
-                in.getPrice().getAmount().doubleValue());
+    public Price[] interpret(Trade in) {
+        return new Price[] {
+            new Price(in.getTradableIdentifier(), in.getTimestamp().getTime(), 
+                in.getPrice().getAmount().doubleValue())
+        };
     }
 }

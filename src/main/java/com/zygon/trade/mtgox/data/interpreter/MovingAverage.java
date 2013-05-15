@@ -4,9 +4,9 @@
 
 package com.zygon.trade.mtgox.data.interpreter;
 
-import java.util.AbstractQueue;
 import java.util.Iterator;
 import java.util.PriorityQueue;
+import java.util.Queue;
 
 /**
  *
@@ -18,13 +18,13 @@ import java.util.PriorityQueue;
  * 
  * This whole bitch is not thread safe..
  */
-public class MovingAverage<T> {
+public class MovingAverage<T extends Comparable> {
 
     public static interface ValueProvider<T_IN> {
         public double getValue(T_IN in);
     }
     
-    private final AbstractQueue<T> values;
+    private final Queue<T> values;
     private final int maxValues;
     private final ValueProvider<T> valueProvider;
 
@@ -35,11 +35,11 @@ public class MovingAverage<T> {
     }
     
     public void add (T value) {
-        if (this.values.size() == this.maxValues) {
+        if (this.values.size() >= this.maxValues) {
             this.values.poll();
         }
         
-        this.values.add(value);
+        this.values.offer(value);
     }
     
     public double getAverage() {
