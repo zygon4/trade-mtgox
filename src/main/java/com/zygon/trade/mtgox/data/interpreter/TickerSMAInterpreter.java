@@ -4,16 +4,13 @@
 
 package com.zygon.trade.mtgox.data.interpreter;
 
-import com.google.common.collect.MinMaxPriorityQueue;
 import com.zygon.trade.market.data.DataProcessor;
 import com.zygon.trade.market.model.indication.Aggregation;
-import com.zygon.trade.market.model.indication.Classification;
 import com.zygon.trade.market.model.indication.numeric.NumericIndication;
-import com.zygon.trade.market.model.indication.numeric.SimpleMovingAverage;
+import com.zygon.trade.market.model.indication.numeric.SMA15Min;
 import com.zygon.trade.mtgox.data.Ticker;
+import com.zygon.trade.mtgox.data.interpreter.MovingAverage.ValueProvider;
 import java.math.RoundingMode;
-import java.util.Comparator;
-import java.util.Iterator;
 
 /**
  *
@@ -21,48 +18,36 @@ import java.util.Iterator;
  */
 public class TickerSMAInterpreter implements DataProcessor.Interpreter<Ticker> {
 
+    private static final class TickerValueProvider implements ValueProvider<Ticker> {
+
+        private double getAveragePrice(Ticker in) {
+            return in.getAsk().plus(in.getBid()).dividedBy(2, RoundingMode.UP).getAmount().doubleValue();
+        }
+        
+        @Override
+        public double getValue(Ticker in) {
+            return this.getAveragePrice(in);
+        }
+    }
+    
     // TODO: actual max occupancy calculation
     private static final int TICKS_PER_MINUTE = 4;
     
-    private final MinMaxPriorityQueue<Ticker> tickers;
     private final Aggregation aggregation;
+    private final MovingAverage<Ticker> movingAverage;
     
     public TickerSMAInterpreter(Aggregation aggregation) {
-        
-        Comparator<Ticker> comparator = new Comparator<Ticker>() {
-
-            @Override
-            public int compare(Ticker t, Ticker t1) {
-                return t.getTimestamp() > t1.getTimestamp() ? -1 : t.getTimestamp() < t1.getTimestamp() ? 1 : 0;
-            }
-        };
-        
         this.aggregation = aggregation;
-        this.tickers = MinMaxPriorityQueue.orderedBy(comparator).maximumSize((int) this.aggregation.getDuration() * TICKS_PER_MINUTE).create();
-    }
-    
-    private double getAveragePrice(Ticker in) {
-        return in.getAsk().plus(in.getBid()).dividedBy(2, RoundingMode.UP).getAmount().doubleValue();
-    }
-    
-    private double getAveragePrice() {
-        double sum = 0.0;
-        
-        Iterator<Ticker> iterator = this.tickers.iterator();
-        while (iterator.hasNext()) {
-            sum += this.getAveragePrice(iterator.next());
-        }
-        
-        return sum / this.tickers.size();
+        this.movingAverage = new MovingAverage<>((int)this.aggregation.getDuration() * TICKS_PER_MINUTE, new TickerValueProvider());
     }
     
     @Override
     public NumericIndication interpret(Ticker in) {
         
-        this.tickers.add(in);
+        this.movingAverage.add(in);
         
-        double averagePrice = this.getAveragePrice();
+        double averagePrice = this.movingAverage.getAverage();
         
-        return new SimpleMovingAverage(in.getTradableIdentifier(), Classification.PRICE, in.getTimestamp(), averagePrice, this.aggregation);
+        return new SMA15Min(in.getTradableIdentifier(), in.getTimestamp(), averagePrice);
     }
 }
