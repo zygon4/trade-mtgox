@@ -9,7 +9,6 @@ import com.zygon.trade.market.model.indication.IndicationListener;
 import com.zygon.trade.market.model.indication.InformationManager;
 import com.zygon.trade.market.model.indication.Selector;
 import com.zygon.trade.market.model.indication.market.MACD;
-import com.zygon.trade.market.model.indication.market.MarketIndication;
 import com.zygon.trade.modules.data.DataModule;
 import com.zygon.trade.modules.model.InformationModule;
 import com.zygon.trade.mtgox.strategy.SimpleMACDZeroCross;
@@ -28,7 +27,7 @@ public class MtGoxStack extends InformationModule {
         
         List<IndicationListener> indications = new ArrayList<>();
 
-        IndicationListener<MACD> listener = new IndicationListener<>("macd", Classification.PRICE, new Selector(MarketIndication.IDS.MACD, Classification.PRICE), new SimpleMACDZeroCross());
+        IndicationListener<MACD> listener = new IndicationListener<>("macd", Classification.PRICE, new Selector(MACD.ID, Classification.PRICE), new SimpleMACDZeroCross());
         
         indications.add(listener);
          
