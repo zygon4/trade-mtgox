@@ -20,8 +20,8 @@ import java.util.PriorityQueue;
  */
 public class MovingAverage<T> {
 
-    public static interface ValueProvider<T> {
-        public double getValue(T in);
+    public static interface ValueProvider<T_IN> {
+        public double getValue(T_IN in);
     }
     
     private final AbstractQueue<T> values;
