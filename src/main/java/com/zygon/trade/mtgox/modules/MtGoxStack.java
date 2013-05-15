@@ -27,7 +27,7 @@ public class MtGoxStack extends InformationModule {
         
         List<IndicationListener> indications = new ArrayList<>();
 
-        IndicationListener<MACD> listener = new IndicationListener<>("macd", Classification.PRICE, new Selector(MACD.ID, Classification.PRICE), new SimpleMACDZeroCross());
+        IndicationListener<MACD> listener = new IndicationListener<>("macd", new Selector(MACD.ID), new SimpleMACDZeroCross());
         
         indications.add(listener);
          
