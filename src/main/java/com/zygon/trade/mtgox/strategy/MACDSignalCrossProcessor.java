@@ -5,8 +5,7 @@
 package com.zygon.trade.mtgox.strategy;
 
 import com.zygon.trade.market.model.indication.market.MACD;
-import static com.zygon.trade.market.model.indication.market.MACD.IndicationType.ZERO_CROSS;
-import com.zygon.trade.market.model.indication.market.MACDZeroCross;
+import com.zygon.trade.market.model.indication.market.MACDSignalCross;
 import com.zygon.trade.strategy.AbstractIndicationProcessor;
 import com.zygon.trade.strategy.IndicationProcessor.Advice;
 
@@ -14,10 +13,10 @@ import com.zygon.trade.strategy.IndicationProcessor.Advice;
  *
  * @author zygon
  */
-public class SimpleMACDZeroCross extends AbstractIndicationProcessor<MACD> {
+public class MACDSignalCrossProcessor extends AbstractIndicationProcessor<MACD> {
 
-    public SimpleMACDZeroCross() {
-        super("SimpleMACDZeroCross");
+    public MACDSignalCrossProcessor() {
+        super("MACDSignalCrossProcessor");
     }
 
     @Override
@@ -30,12 +29,12 @@ public class SimpleMACDZeroCross extends AbstractIndicationProcessor<MACD> {
         Evidence evidence = null;
         
         switch (in.getIndicationType()) {
-            case ZERO_CROSS:
-                MACDZeroCross zeroLineSignal = (MACDZeroCross) in;
+            case SIGNAL_CROSS:
+                MACDSignalCross macdSignalLine = (MACDSignalCross) in;
                 
-                this.getLog().trace("Received indication " + zeroLineSignal);
+                this.getLog().trace("Received indication " + macdSignalLine);
                 
-                if (zeroLineSignal.crossAboveZero()) {
+                if (macdSignalLine.crossAboveSignal()) {
                     evidence = Evidence.BULL;
                 } else {
                     evidence = Evidence.BEAR;

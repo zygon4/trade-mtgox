@@ -6,12 +6,11 @@ package com.zygon.trade.mtgox.modules;
 import com.zygon.trade.market.model.indication.IndicationListener;
 import com.zygon.trade.market.model.indication.InformationManager;
 import com.zygon.trade.market.model.indication.Selector;
-import com.zygon.trade.market.model.indication.numeric.SMA15Min;
-import com.zygon.trade.market.model.indication.numeric.SMA60Min;
-import com.zygon.trade.market.model.indication.numeric.SimpleMovingAverage;
+import com.zygon.trade.market.model.indication.market.MACD;
 import com.zygon.trade.modules.data.DataModule;
 import com.zygon.trade.modules.model.InformationModule;
-import com.zygon.trade.mtgox.strategy.SimpleSMAProcessor;
+import com.zygon.trade.mtgox.strategy.MACDSignalCrossProcessor;
+import com.zygon.trade.mtgox.strategy.MACDZeroCrossProcessor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,9 +24,11 @@ public class MtGoxStack extends InformationModule {
 
         List<IndicationListener> indications = new ArrayList<>();
 
-        IndicationListener<SimpleMovingAverage> listener = new IndicationListener<>("sma", new Selector(SMA15Min.ID, SMA60Min.ID), new SimpleSMAProcessor());
+        IndicationListener<MACD> macdZeroCross = new IndicationListener<>("macdZeroCross", new Selector(MACD.ID), new MACDZeroCrossProcessor());
+        IndicationListener<MACD> macdSignalCross = new IndicationListener<>("macdSignalCross", new Selector(MACD.ID), new MACDSignalCrossProcessor());
 
-        indications.add(listener);
+        indications.add(macdZeroCross);
+        indications.add(macdSignalCross);
 
         InformationManager mgmt = new InformationManager(name, indications);
         data.getDataManager().setInfoHandler(mgmt);
