@@ -8,6 +8,7 @@ import com.zygon.trade.market.model.indication.market.MACD;
 import com.zygon.trade.market.model.indication.market.MACDSignalCross;
 import com.zygon.trade.strategy.AbstractIndicationProcessor;
 import com.zygon.trade.strategy.IndicationProcessor.Advice;
+import com.zygon.trade.strategy.TradeAgent;
 
 /**
  *
@@ -15,8 +16,8 @@ import com.zygon.trade.strategy.IndicationProcessor.Advice;
  */
 public class MACDSignalCrossProcessor extends AbstractIndicationProcessor<MACD> {
 
-    public MACDSignalCrossProcessor() {
-        super("MACDSignalCrossProcessor");
+    public MACDSignalCrossProcessor(TradeAgent agent) {
+        super("MACDSignalCrossProcessor", agent);
     }
 
     @Override

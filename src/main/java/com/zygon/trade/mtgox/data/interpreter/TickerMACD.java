@@ -4,14 +4,16 @@
 
 package com.zygon.trade.mtgox.data.interpreter;
 
+import com.zygon.trade.market.util.MovingAverage;
 import com.zygon.trade.market.data.DataProcessor;
 import com.zygon.trade.market.model.indication.Aggregation;
 import com.zygon.trade.market.model.indication.market.MACD;
 import com.zygon.trade.market.model.indication.market.MACDSignalCross;
 import com.zygon.trade.market.model.indication.market.MACDZeroCross;
 import com.zygon.trade.mtgox.data.Ticker;
-import com.zygon.trade.mtgox.data.interpreter.MovingAverage.ValueProvider;
+import com.zygon.trade.market.util.MovingAverage.ValueProvider;
 import java.math.RoundingMode;
+import java.util.Comparator;
 
 /**
  *
@@ -60,9 +62,19 @@ public class TickerMACD implements DataProcessor.Interpreter<Ticker> {
         this.lagging = lagging;
         this.macd = macd;
         
-        this.leadingMA = new MovingAverage<>((int)this.leading.getDuration().getVal() * TICKS_PER_MINUTE, new TickerValueProvider());
-        this.laggingMA = new MovingAverage<>((int)this.lagging.getDuration().getVal() * TICKS_PER_MINUTE, new TickerValueProvider());
-        this.macdMA = new MovingAverage<>((int)this.macd.getDuration().getVal() * TICKS_PER_MINUTE, new IdentifyValueProvider());
+        TickerComparator tickerComparator = new TickerComparator();
+        
+        this.leadingMA = new MovingAverage<>((int)this.leading.getDuration().getVal() * TICKS_PER_MINUTE, tickerComparator, new TickerValueProvider());
+        this.laggingMA = new MovingAverage<>((int)this.lagging.getDuration().getVal() * TICKS_PER_MINUTE, tickerComparator, new TickerValueProvider());
+        
+        Comparator<Double> comparator = new Comparator<Double>() {
+            @Override
+            public int compare(Double t, Double t1) {
+                return t.compareTo(t1);
+            }
+        };
+        
+        this.macdMA = new MovingAverage<>((int)this.macd.getDuration().getVal() * TICKS_PER_MINUTE, comparator, new IdentifyValueProvider());
     }
     
     private boolean firstValue = true;

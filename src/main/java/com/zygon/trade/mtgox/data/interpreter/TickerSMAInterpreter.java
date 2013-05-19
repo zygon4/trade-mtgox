@@ -4,11 +4,12 @@
 
 package com.zygon.trade.mtgox.data.interpreter;
 
+import com.zygon.trade.market.util.MovingAverage;
 import com.zygon.trade.market.data.DataProcessor;
 import com.zygon.trade.market.model.indication.Aggregation;
 import com.zygon.trade.market.model.indication.numeric.SimpleMovingAverage;
 import com.zygon.trade.mtgox.data.Ticker;
-import com.zygon.trade.mtgox.data.interpreter.MovingAverage.ValueProvider;
+import com.zygon.trade.market.util.MovingAverage.ValueProvider;
 import java.math.RoundingMode;
 
 /**
@@ -42,7 +43,7 @@ public class TickerSMAInterpreter implements DataProcessor.Interpreter<Ticker> {
         }
         
         this.aggregation = aggregation;
-        this.movingAverage = new MovingAverage<>((int)this.aggregation.getDuration().getVal() * TICKS_PER_MINUTE, new TickerValueProvider());
+        this.movingAverage = new MovingAverage<>((int)this.aggregation.getDuration().getVal() * TICKS_PER_MINUTE, new TickerComparator(), new TickerValueProvider());
     }
     
     @Override
