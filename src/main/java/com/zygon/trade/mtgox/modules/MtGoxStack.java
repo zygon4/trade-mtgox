@@ -5,6 +5,7 @@ package com.zygon.trade.mtgox.modules;
 
 import com.xeiam.xchange.Currencies;
 import com.zygon.trade.execution.ExecutionController;
+import com.zygon.trade.execution.MarketConditionsProvider;
 import com.zygon.trade.execution.simulation.SimulationBinding;
 import com.zygon.trade.market.model.indication.IndicationListener;
 import com.zygon.trade.market.model.indication.InformationManager;
@@ -28,7 +29,9 @@ public class MtGoxStack extends InformationModule {
 
     private static InformationManager getInformationLayer(String name, DataModule data) {
 
-        ExecutionController execController = new ExecutionController(Currencies.BTC, new SimulationBinding("joe", CurrencyUnit.USD, 1000.0));
+        
+        MarketConditionsProvider marketProvider = null;
+        ExecutionController execController = new ExecutionController(Currencies.BTC, new SimulationBinding("joe", CurrencyUnit.USD, 1000.0, marketProvider));
         
         TradeAgent agent = new BullBearTrader("user-id-1", execController);
         

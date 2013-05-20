@@ -16,6 +16,7 @@ import com.zygon.trade.modules.data.DataModule;
 import com.zygon.trade.mtgox.data.MtGoxTickerProvider;
 import com.zygon.trade.mtgox.data.Ticker;
 import com.zygon.trade.mtgox.data.interpreter.TickerMACD;
+import com.zygon.trade.mtgox.data.interpreter.TickerPriceInterpreter;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -81,6 +82,7 @@ public class MtGoxTickerData extends DataModule {
                 new Aggregation(Aggregation.Type.AVG, Aggregation.Duration._60, TimeUnit.MINUTES),
                 new Aggregation(Aggregation.Type.AVG, Aggregation.Duration._5, TimeUnit.MINUTES)
                 ));
+        interpreters.add(new TickerPriceInterpreter());
         
         List<DataProcessor> dataHandlers = new ArrayList<>();
         dataHandlers.add(new DataProcessor("mtgox_ticker_data_handler", interpreters));
