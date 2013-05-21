@@ -7,7 +7,7 @@ package com.zygon.trade.mtgox.strategy;
 import com.zygon.trade.market.model.indication.numeric.SimpleMovingAverage;
 import com.zygon.trade.strategy.AbstractIndicationProcessor;
 import com.zygon.trade.strategy.IndicationProcessor.Advice;
-import com.zygon.trade.strategy.TradeAgent;
+import com.zygon.trade.strategy.TradingFloor;
 
 /**
  *
@@ -15,8 +15,8 @@ import com.zygon.trade.strategy.TradeAgent;
  */
 public class SimpleSMAProcessor extends AbstractIndicationProcessor<SimpleMovingAverage> {
 
-    public SimpleSMAProcessor(TradeAgent agent) {
-        super("SimpleSMAProcessor", agent);
+    public SimpleSMAProcessor(TradingFloor floor) {
+        super("SimpleSMAProcessor", floor);
     }
 
     @Override

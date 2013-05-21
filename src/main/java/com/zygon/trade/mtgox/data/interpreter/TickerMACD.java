@@ -13,7 +13,9 @@ import com.zygon.trade.market.model.indication.market.MACDZeroCross;
 import com.zygon.trade.mtgox.data.Ticker;
 import com.zygon.trade.market.util.MovingAverage.ValueProvider;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 /**
  *
@@ -98,6 +100,8 @@ public class TickerMACD implements DataProcessor.Interpreter<Ticker> {
         
         double signalLine = this.macdMA.getAverage();
         
+        List<MACD> macds = new ArrayList<>();
+        
         if (this.firstValue) {
             // First calc zero cross
             this.aboveZero = macdLine > 0.0;
@@ -110,30 +114,34 @@ public class TickerMACD implements DataProcessor.Interpreter<Ticker> {
             if (this.aboveZero) {
                 if (macdLine < 0.0) {
                     this.aboveZero = false;
+                    macds.add(new MACDZeroCross(in.getTradableIdentifier(), in.getTimestamp(), this.aboveZero));
                 }
             } else {
                 if (macdLine > 0.0) {
                     this.aboveZero = true;
+                    macds.add(new MACDZeroCross(in.getTradableIdentifier(), in.getTimestamp(), this.aboveZero));
                 }
             }
             
             if (this.aboveSignal) {
                 if (signalLine < macdLine) {
                     this.aboveSignal = false;
+                    macds.add(new MACDSignalCross(in.getTradableIdentifier(), in.getTimestamp(), this.aboveSignal));
                 }
             } else {
                 if (signalLine > macdLine) {
                     this.aboveSignal = true;
+                    macds.add(new MACDSignalCross(in.getTradableIdentifier(), in.getTimestamp(), this.aboveSignal));
                 }
             }
         }
         
-        MACD macdZeroCross = new MACDZeroCross(in.getTradableIdentifier(), in.getTimestamp(), this.aboveZero);
-        MACD macdSignalCross = new MACDSignalCross(in.getTradableIdentifier(), in.getTimestamp(), this.aboveSignal);
+//        // TODO: need to not generate signal unless there is a cross
+//        MACD macdZeroCross = new MACDZeroCross(in.getTradableIdentifier(), in.getTimestamp(), this.aboveZero);
+//        
+//        // TODO: need to not generate signal unless there is a cross
+//        MACD macdSignalCross = new MACDSignalCross(in.getTradableIdentifier(), in.getTimestamp(), this.aboveSignal);
         
-        return new MACD[] {
-            macdZeroCross,
-            macdSignalCross
-        };
+        return macds.toArray(new MACD[macds.size()]);
     }
 }
