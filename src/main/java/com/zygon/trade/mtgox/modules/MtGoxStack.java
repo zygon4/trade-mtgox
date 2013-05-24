@@ -32,7 +32,7 @@ public class MtGoxStack extends InformationModule {
     private static InformationManager getInformationLayer(String name, DataModule data) {
         
         MarketConditionsProcessor marketProvider = new MarketConditionsProcessor("MtGoxMarketConditions");
-        ExecutionController execController = new ExecutionController(Currencies.BTC, new SimulationBinding("joe", CurrencyUnit.USD, 1000.0, marketProvider));
+        ExecutionController execController = new ExecutionController(Currencies.USD, new SimulationBinding("joe", CurrencyUnit.USD, 1000.0, marketProvider));
         
         List<TradeAgent> agents = new ArrayList<>();
         agents.add(new BullBearTrader("user-id-1", execController));

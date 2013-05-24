@@ -9,7 +9,6 @@ import com.zygon.trade.market.data.DataProcessor;
 import com.zygon.trade.market.model.indication.Aggregation;
 import com.zygon.trade.market.model.indication.numeric.SimpleMovingAverage;
 import com.zygon.trade.mtgox.data.Ticker;
-import com.zygon.trade.market.util.MovingAverage.ValueProvider;
 import java.math.RoundingMode;
 
 /**
@@ -18,23 +17,15 @@ import java.math.RoundingMode;
  */
 public class TickerSMAInterpreter implements DataProcessor.Interpreter<Ticker> {
 
-    private static final class TickerValueProvider implements ValueProvider<Ticker> {
-
-        private double getAveragePrice(Ticker in) {
-            return in.getAsk().plus(in.getBid()).dividedBy(2, RoundingMode.UP).getAmount().doubleValue();
-        }
-        
-        @Override
-        public double getValue(Ticker in) {
-            return this.getAveragePrice(in);
-        }
+    private static double getMidPrice(Ticker in) {
+        return in.getAsk().plus(in.getBid()).dividedBy(2, RoundingMode.UP).getAmount().doubleValue();
     }
     
     // TODO: actual max occupancy calculation
     private static final int TICKS_PER_MINUTE = 4;
     
     private final Aggregation aggregation;
-    private final MovingAverage<Ticker> movingAverage;
+    private final MovingAverage movingAverage;
     
     public TickerSMAInterpreter(Aggregation aggregation) {
         
@@ -43,7 +34,7 @@ public class TickerSMAInterpreter implements DataProcessor.Interpreter<Ticker> {
         }
         
         this.aggregation = aggregation;
-        this.movingAverage = new MovingAverage<>((int)this.aggregation.getDuration().getVal() * TICKS_PER_MINUTE, new TickerComparator(), new TickerValueProvider());
+        this.movingAverage = new MovingAverage((int)this.aggregation.getDuration().getVal() * TICKS_PER_MINUTE);
     }
     
     @Override
@@ -51,9 +42,9 @@ public class TickerSMAInterpreter implements DataProcessor.Interpreter<Ticker> {
         
         //TBD: only get the average price every x number of ticks?
         
-        this.movingAverage.add(in);
+        this.movingAverage.add(getMidPrice(in));
         
-        double averagePrice = this.movingAverage.getAverage();
+        double averagePrice = this.movingAverage.getMean();
         
         return new SimpleMovingAverage[] {
             new SimpleMovingAverage(in.getTradableIdentifier(), this.aggregation.getDuration(), this.aggregation.getUnits(), in.getTimestamp(), averagePrice) 

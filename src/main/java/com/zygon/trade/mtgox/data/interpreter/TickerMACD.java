@@ -10,11 +10,10 @@ import com.zygon.trade.market.model.indication.Aggregation;
 import com.zygon.trade.market.model.indication.market.MACD;
 import com.zygon.trade.market.model.indication.market.MACDSignalCross;
 import com.zygon.trade.market.model.indication.market.MACDZeroCross;
+import com.zygon.trade.market.util.ExponentialMovingAverage;
 import com.zygon.trade.mtgox.data.Ticker;
-import com.zygon.trade.market.util.MovingAverage.ValueProvider;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -23,24 +22,8 @@ import java.util.List;
  */
 public class TickerMACD implements DataProcessor.Interpreter<Ticker> {
 
-    private static final class TickerValueProvider implements ValueProvider<Ticker> {
-
-        private double getAveragePrice(Ticker in) {
-            return in.getAsk().plus(in.getBid()).dividedBy(2, RoundingMode.UP).getAmount().doubleValue();
-        }
-        
-        @Override
-        public double getValue(Ticker in) {
-            return this.getAveragePrice(in);
-        }
-    }
-    
-    private static final class IdentifyValueProvider implements ValueProvider<Double> {
-
-        @Override
-        public double getValue(Double in) {
-            return in;
-        }
+    private static double getMidPrice(Ticker in) {
+        return in.getAsk().plus(in.getBid()).dividedBy(2, RoundingMode.UP).getAmount().doubleValue();
     }
     
     // TODO: actual max occupancy calculation
@@ -50,9 +33,27 @@ public class TickerMACD implements DataProcessor.Interpreter<Ticker> {
     private final Aggregation lagging;
     private final Aggregation macd;
     
-    private final MovingAverage<Ticker> leadingMA;
-    private final MovingAverage<Ticker> laggingMA;
-    private final MovingAverage<Double> macdMA;
+    private final MovingAverage leadingMA;
+    private final MovingAverage laggingMA;
+    private final MovingAverage macdMA;
+    
+    // TODO: convert time to seconds
+    private static int getWindow (Aggregation aggregation, int ticksPerMinute) {
+        int ticks = 0;
+        
+        switch (aggregation.getUnits()) {
+            case DAYS:
+//                ticks 
+            case HOURS:
+            case MINUTES:
+            case SECONDS:
+            case MICROSECONDS:
+            case MILLISECONDS:
+            case NANOSECONDS:
+        }
+        
+        return ticks;
+    }
     
     public TickerMACD(Aggregation leading, Aggregation lagging, Aggregation macd) {
         
@@ -64,19 +65,10 @@ public class TickerMACD implements DataProcessor.Interpreter<Ticker> {
         this.lagging = lagging;
         this.macd = macd;
         
-        TickerComparator tickerComparator = new TickerComparator();
+        this.leadingMA = new ExponentialMovingAverage((int)this.leading.getDuration().getVal() * TICKS_PER_MINUTE);
+        this.laggingMA = new ExponentialMovingAverage((int)this.lagging.getDuration().getVal() * TICKS_PER_MINUTE);
         
-        this.leadingMA = new MovingAverage<>((int)this.leading.getDuration().getVal() * TICKS_PER_MINUTE, tickerComparator, new TickerValueProvider());
-        this.laggingMA = new MovingAverage<>((int)this.lagging.getDuration().getVal() * TICKS_PER_MINUTE, tickerComparator, new TickerValueProvider());
-        
-        Comparator<Double> comparator = new Comparator<Double>() {
-            @Override
-            public int compare(Double t, Double t1) {
-                return t.compareTo(t1);
-            }
-        };
-        
-        this.macdMA = new MovingAverage<>((int)this.macd.getDuration().getVal() * TICKS_PER_MINUTE, comparator, new IdentifyValueProvider());
+        this.macdMA = new ExponentialMovingAverage((int)this.macd.getDuration().getVal() * TICKS_PER_MINUTE);
     }
     
     private boolean firstValue = true;
@@ -88,17 +80,17 @@ public class TickerMACD implements DataProcessor.Interpreter<Ticker> {
         
         //TBD: only get the average price every x number of ticks?
         
-        this.leadingMA.add(in);
-        this.laggingMA.add(in);
+        this.leadingMA.add(getMidPrice(in));
+        this.laggingMA.add(getMidPrice(in));
         
-        double leadingPrice = this.leadingMA.getAverage();
-        double laggingPrice = this.laggingMA.getAverage();
+        double leadingPrice = this.leadingMA.getMean();
+        double laggingPrice = this.laggingMA.getMean();
         
         double macdLine = leadingPrice - laggingPrice;
         
         this.macdMA.add(macdLine);
         
-        double signalLine = this.macdMA.getAverage();
+        double signalLine = this.macdMA.getMean();
         
         List<MACD> macds = new ArrayList<>();
         
