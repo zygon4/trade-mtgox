@@ -26,6 +26,11 @@ public class NullTradeImpl implements TradeImpl {
     }
 
     @Override
+    public String getDisplayIdentifier() {
+        return "NullTradeImpl";
+    }
+
+    @Override
     public boolean meetsEntryConditions(MarketConditions marketConditions) {
         return false;
     }
