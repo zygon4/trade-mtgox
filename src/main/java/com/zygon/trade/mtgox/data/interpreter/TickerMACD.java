@@ -5,14 +5,12 @@
 package com.zygon.trade.mtgox.data.interpreter;
 
 import com.zygon.trade.market.util.MovingAverage;
-import com.zygon.trade.market.data.DataProcessor;
 import com.zygon.trade.market.model.indication.Aggregation;
 import com.zygon.trade.market.model.indication.market.MACD;
 import com.zygon.trade.market.model.indication.market.MACDSignalCross;
 import com.zygon.trade.market.model.indication.market.MACDZeroCross;
 import com.zygon.trade.market.util.ExponentialMovingAverage;
 import com.zygon.trade.mtgox.data.Ticker;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,14 +18,7 @@ import java.util.List;
  *
  * @author zygon
  */
-public class TickerMACD implements DataProcessor.Interpreter<Ticker> {
-
-    private static double getMidPrice(Ticker in) {
-        return in.getAsk().plus(in.getBid()).dividedBy(2, RoundingMode.UP).getAmount().doubleValue();
-    }
-    
-    // TODO: actual max occupancy calculation
-    private static final int TICKS_PER_MINUTE = 4;
+public class TickerMACD extends MtGoxTickerInterpreter {
     
     private final Aggregation leading;
     private final Aggregation lagging;
@@ -37,25 +28,8 @@ public class TickerMACD implements DataProcessor.Interpreter<Ticker> {
     private final MovingAverage laggingMA;
     private final MovingAverage macdMA;
     
-    // TODO: convert time to seconds
-    private static int getWindow (Aggregation aggregation, int ticksPerMinute) {
-        int ticks = 0;
-        
-        switch (aggregation.getUnits()) {
-            case DAYS:
-//                ticks 
-            case HOURS:
-            case MINUTES:
-            case SECONDS:
-            case MICROSECONDS:
-            case MILLISECONDS:
-            case NANOSECONDS:
-        }
-        
-        return ticks;
-    }
-    
     public TickerMACD(Aggregation leading, Aggregation lagging, Aggregation macd) {
+        super();
         
         if (leading.getType() != Aggregation.Type.AVG || lagging.getType() != Aggregation.Type.AVG || macd.getType() != Aggregation.Type.AVG) {
             throw new IllegalArgumentException("Aggregations must be based on average");
@@ -65,10 +39,10 @@ public class TickerMACD implements DataProcessor.Interpreter<Ticker> {
         this.lagging = lagging;
         this.macd = macd;
         
-        this.leadingMA = new ExponentialMovingAverage((int)this.leading.getDuration().getVal() * TICKS_PER_MINUTE);
-        this.laggingMA = new ExponentialMovingAverage((int)this.lagging.getDuration().getVal() * TICKS_PER_MINUTE);
+        this.leadingMA = new ExponentialMovingAverage(getWindow(this.leading));
+        this.laggingMA = new ExponentialMovingAverage(getWindow(this.lagging));
         
-        this.macdMA = new ExponentialMovingAverage((int)this.macd.getDuration().getVal() * TICKS_PER_MINUTE);
+        this.macdMA = new ExponentialMovingAverage(getWindow(this.macd));
     }
     
     private boolean firstValue = true;

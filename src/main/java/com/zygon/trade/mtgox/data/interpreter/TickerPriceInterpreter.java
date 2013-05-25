@@ -5,7 +5,6 @@
 package com.zygon.trade.mtgox.data.interpreter;
 
 import com.xeiam.xchange.Currencies;
-import com.zygon.trade.market.data.DataProcessor;
 import com.zygon.trade.market.model.indication.numeric.Price;
 import com.zygon.trade.mtgox.data.Ticker;
 import java.math.RoundingMode;
@@ -14,9 +13,13 @@ import java.math.RoundingMode;
  *
  * @author zygon
  */
-public class TickerPriceInterpreter implements DataProcessor.Interpreter<Ticker> {
+public class TickerPriceInterpreter extends MtGoxTickerInterpreter {
 
     private Price previousPrice = null;
+
+    public TickerPriceInterpreter() {
+        super();
+    }
     
     @Override
     public Price[] interpret(Ticker in) {
