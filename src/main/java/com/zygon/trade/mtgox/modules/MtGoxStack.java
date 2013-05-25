@@ -10,7 +10,6 @@ import com.zygon.trade.execution.simulation.SimulationBinding;
 import com.zygon.trade.market.model.indication.InformationManager;
 import com.zygon.trade.modules.data.DataModule;
 import com.zygon.trade.modules.model.InformationModule;
-import com.zygon.trade.mtgox.strategy.MACDTradeImpl;
 import com.zygon.trade.mtgox.strategy.NullTradeImpl;
 import com.zygon.trade.strategy.Trade;
 import com.zygon.trade.strategy.TradeAgent;
