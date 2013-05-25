@@ -79,16 +79,12 @@ public class MtGoxTickerData extends DataModule {
         
         List<Interpreter> interpreters = new ArrayList<>();
         interpreters.add(new TickerMACD(
-                new Aggregation(Aggregation.Type.AVG, Aggregation.Duration._30, TimeUnit.MINUTES),
-                new Aggregation(Aggregation.Type.AVG, Aggregation.Duration._60, TimeUnit.MINUTES),
-                new Aggregation(Aggregation.Type.AVG, Aggregation.Duration._5, TimeUnit.MINUTES)
-                
-//                new Aggregation(Aggregation.Type.AVG, Aggregation.Duration._1, TimeUnit.DAYS),
-//                new Aggregation(Aggregation.Type.AVG, Aggregation.Duration._4, TimeUnit.DAYS),
-//                new Aggregation(Aggregation.Type.AVG, Aggregation.Duration._4, TimeUnit.HOURS)
+                new Aggregation(Aggregation.Type.AVG, Aggregation.Duration._1, TimeUnit.DAYS),
+                new Aggregation(Aggregation.Type.AVG, Aggregation.Duration._4, TimeUnit.DAYS),
+                new Aggregation(Aggregation.Type.AVG, Aggregation.Duration._4, TimeUnit.HOURS)
                 ));
         interpreters.add(new TickerPriceInterpreter());
-        interpreters.add(new BBInterpreter(new Aggregation(Aggregation.Type.AVG, Aggregation.Duration._60, TimeUnit.MINUTES), 3));
+        interpreters.add(new BBInterpreter(new Aggregation(Aggregation.Type.AVG, Aggregation.Duration._1, TimeUnit.DAYS), 3));
         
         List<DataProcessor> dataHandlers = new ArrayList<>();
         dataHandlers.add(new DataProcessor("mtgox_ticker_data_handler", interpreters));
