@@ -11,8 +11,8 @@ import com.zygon.trade.market.model.indication.InformationManager;
 import com.zygon.trade.modules.data.DataModule;
 import com.zygon.trade.modules.model.InformationModule;
 import com.zygon.trade.mtgox.strategy.MACDTradeImpl;
-import com.zygon.trade.strategy.Trade2;
-import com.zygon.trade.strategy.TradeAgent2;
+import com.zygon.trade.strategy.Trade;
+import com.zygon.trade.strategy.TradeAgent;
 import java.util.ArrayList;
 import java.util.List;
 import org.joda.money.CurrencyUnit;
@@ -28,11 +28,11 @@ public class MtGoxStack extends InformationModule {
         MarketConditions marketConditions = new MarketConditions(Currencies.BTC);
         ExecutionController execController = new ExecutionController(Currencies.USD, new SimulationBinding("joe", CurrencyUnit.USD, 1000.0, marketConditions));
         
-        List<TradeAgent2> traders = new ArrayList<>();
-        List<Trade2> trades = new ArrayList<>();
+        List<TradeAgent> traders = new ArrayList<>();
+        List<Trade> trades = new ArrayList<>();
         
-        trades.add(new Trade2(marketConditions, new MACDTradeImpl("user-id-1", execController)));
-        traders.add(new TradeAgent2(trades));
+        trades.add(new Trade(marketConditions, new MACDTradeImpl("user-id-1", execController)));
+        traders.add(new TradeAgent(trades));
         
         InformationManager mgmt = new InformationManager(name, marketConditions, traders);
         data.getDataManager().setInfoHandler(mgmt);
