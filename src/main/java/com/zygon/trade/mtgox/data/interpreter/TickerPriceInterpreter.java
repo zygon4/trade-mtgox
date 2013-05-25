@@ -16,11 +16,27 @@ import java.math.RoundingMode;
  */
 public class TickerPriceInterpreter implements DataProcessor.Interpreter<Ticker> {
 
+    private Price previousPrice = null;
+    
     @Override
     public Price[] interpret(Ticker in) {
-        return new Price[] {
-            new Price (in.getTradableIdentifier(), in.getTimestamp(), 
-                in.getAsk().plus(in.getBid()).dividedBy(2, RoundingMode.UP).getAmount().doubleValue(), Currencies.USD)
-        };
+        
+        if (this.previousPrice == null) {
+            
+            this.previousPrice = new Price (in.getTradableIdentifier(), in.getTimestamp(), 
+                in.getAsk().plus(in.getBid()).dividedBy(2, RoundingMode.UP).getAmount().doubleValue(), Currencies.USD);
+            return new Price[] { this.previousPrice };
+            
+        } else {
+            Price newPrice = new Price (in.getTradableIdentifier(), in.getTimestamp(), 
+                in.getAsk().plus(in.getBid()).dividedBy(2, RoundingMode.UP).getAmount().doubleValue(), Currencies.USD);
+            
+            if (newPrice.getValue() != this.previousPrice.getValue()) {
+                this.previousPrice = newPrice;
+                return new Price[] { newPrice };
+            }
+        }
+        
+        return new Price[]{};
     }
 }
