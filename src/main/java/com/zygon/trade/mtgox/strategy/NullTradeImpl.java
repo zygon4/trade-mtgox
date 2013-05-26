@@ -31,6 +31,11 @@ public class NullTradeImpl implements TradeImpl {
     }
 
     @Override
+    public void cancel() throws ExchangeException {
+        
+    }
+    
+    @Override
     public boolean meetsEntryConditions(MarketConditions marketConditions) {
         return false;
     }
