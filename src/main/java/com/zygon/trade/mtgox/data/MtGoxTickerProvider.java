@@ -25,7 +25,7 @@ import org.joda.money.BigMoney;
 public class MtGoxTickerProvider extends MtGoxDataProvider<Ticker> {
 
     private final Object historicDataLock = new Object();
-    private boolean hasHistoricData = true;
+    private boolean hasHistoricData = false;
     
     public MtGoxTickerProvider(String tradableIdentifier, String currency) {
         super("Ticker Provider", 15, TimeUnit.SECONDS, tradableIdentifier, currency);
