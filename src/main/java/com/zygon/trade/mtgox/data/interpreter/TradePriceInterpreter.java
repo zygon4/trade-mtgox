@@ -4,7 +4,7 @@
 
 package com.zygon.trade.mtgox.data.interpreter;
 
-import com.xeiam.xchange.Currencies;
+import com.xeiam.xchange.currency.Currencies;
 import com.zygon.trade.market.data.DataProcessor;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.zygon.trade.market.model.indication.numeric.Price;

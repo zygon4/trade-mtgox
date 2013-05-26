@@ -4,7 +4,7 @@
 
 package com.zygon.trade.mtgox.data.interpreter;
 
-import com.xeiam.xchange.Currencies;
+import com.xeiam.xchange.currency.Currencies;
 import com.zygon.trade.market.model.indication.numeric.Price;
 import com.zygon.trade.mtgox.data.Ticker;
 import java.math.RoundingMode;
