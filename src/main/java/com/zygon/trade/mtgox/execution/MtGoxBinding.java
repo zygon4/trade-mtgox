@@ -5,8 +5,9 @@
 package com.zygon.trade.mtgox.execution;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.mtgox.v1.service.account.MtGoxPollingAccountService;
-import com.xeiam.xchange.mtgox.v1.service.trade.polling.MtGoxPollingTradeService;
+import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxPollingAccountService;
+import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxPollingMarketDataService;
+import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxPollingTradeService;
 import com.zygon.trade.execution.AccountController;
 import com.zygon.trade.execution.ExecutionController;
 import com.zygon.trade.execution.OrderBookProvider;
@@ -29,8 +30,9 @@ public class MtGoxBinding implements ExecutionController.Binding {
         this.accntController = new MtGoxAcctController(new MtGoxPollingAccountService(exchangeSpec));
         
         MtGoxPollingTradeService tradeService = new MtGoxPollingTradeService(exchangeSpec);
+        MtGoxPollingMarketDataService marketDataService = new MtGoxPollingMarketDataService(exchangeSpec);
         
-        this.orderBookProvider = new MtGoxOrderBookProvider(tradeService);
+        this.orderBookProvider = new MtGoxOrderBookProvider(tradeService, marketDataService);
         this.orderProvider = new MtGoxOrderProvider(currency);
         this.tradeExecutor = new MtGoxTradeExecutor(tradeService);
     }

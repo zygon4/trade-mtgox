@@ -7,7 +7,7 @@ package com.zygon.trade.mtgox.execution;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
-import com.xeiam.xchange.mtgox.v1.service.trade.polling.MtGoxPollingTradeService;
+import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxPollingTradeService;
 import com.zygon.trade.execution.ExchangeException;
 import com.zygon.trade.execution.TradeExecutor;
 
