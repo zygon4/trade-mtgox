@@ -4,16 +4,13 @@
 
 package com.zygon.trade.mtgox.modules;
 
-import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.mtgox.v2.MtGoxExchange;
 import com.zygon.trade.Module;
 import com.zygon.trade.ModuleProvider;
 import com.zygon.trade.execution.ExecutionController;
 import com.zygon.trade.execution.MarketConditions;
 import com.zygon.trade.execution.simulation.SimulationBinding;
 import com.zygon.trade.market.model.indication.InformationManager;
-import com.zygon.trade.mtgox.execution.MtGoxBinding;
 import com.zygon.trade.strategy.Trade;
 import com.zygon.trade.strategy.TradeAgent;
 import com.zygon.trade.strategy.trade.BBTrader;
