@@ -54,9 +54,9 @@ public class MtGoxSimulationModuleProvider implements ModuleProvider {
         
         Module[] modules = new Module[] {
             new MtGoxStack(
-                "MtGoxStack", 
-                new MtGoxTickerData("MtGoxTickerData"), 
-                getInformationLayer("MtGoxInformationLayer", marketConditions, getSimulationTrader(marketConditions)))
+                "MtGoxSimulationStack", 
+                new MtGoxTickerData("MtGoxSimulationTickerData"), 
+                getInformationLayer("MtGoxSimulationInformationLayer", marketConditions, getSimulationTrader(marketConditions)))
         };
         
         return modules;
