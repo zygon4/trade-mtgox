@@ -34,6 +34,6 @@ public class MtGoxTradeProvider extends MtGoxDataProvider<Trade> {
         long vol = rand.nextInt(10);
         
         return new Trade(Order.OrderType.BID, BigDecimal.valueOf(vol), this.getTradableIdentifier(), 
-                this.getCurrency(), BigMoney.ofMajor(CurrencyUnit.USD, price), new Date(System.currentTimeMillis()));
+                this.getCurrency(), BigMoney.ofMajor(CurrencyUnit.USD, price), new Date(System.currentTimeMillis()), 0);
     }
 }
