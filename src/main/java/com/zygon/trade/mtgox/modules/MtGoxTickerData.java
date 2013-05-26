@@ -5,7 +5,7 @@
 package com.zygon.trade.mtgox.modules;
 
 import au.com.bytecode.opencsv.CSVWriter;
-import com.xeiam.xchange.Currencies;
+import com.xeiam.xchange.currency.Currencies;
 import com.zygon.trade.market.data.DataListener;
 import com.zygon.trade.market.data.DataProcessor;
 import com.zygon.trade.market.data.DataProcessor.Interpreter;
