@@ -39,6 +39,13 @@ public class MtGoxTradeExecutor implements TradeExecutor {
             orderId = this.mtGoxPollingTradeService.placeMarketOrder((MarketOrder)order);
         }
         
+        // TODO: understand what it means for a market order to be cancelled
+        // and what is returned when that happens.  For now throw an exception
+        // if we return no order id.
+        if (orderId == null) {
+            throw new ExchangeException("Received no order id when placing order: " + order);
+        }
+        
         return orderId;
     }
 }
