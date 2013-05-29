@@ -19,6 +19,7 @@ public class VolatilityInterpreter extends MtGoxTickerInterpreter {
 
     private final MovingAverage ma;
     
+    // TBD: could have several aggregations and produce several volatilities
     public VolatilityInterpreter(Aggregation aggregation) {
         super();
         
