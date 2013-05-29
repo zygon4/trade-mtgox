@@ -61,7 +61,7 @@ public class MtGoxSimulationModuleProvider implements ModuleProvider {
     public Module[] getModules() {
         
         if (LIVE) {
-            MarketConditions marketConditions = new MarketConditions(Currencies.BTC);
+            MarketConditions marketConditions = new MarketConditions("MtGoxSimulation", Currencies.BTC);
 
             Module[] modules = new Module[] {
                 new MtGoxStack(
