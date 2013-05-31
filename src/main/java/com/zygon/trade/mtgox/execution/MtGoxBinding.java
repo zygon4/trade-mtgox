@@ -38,22 +38,22 @@ public class MtGoxBinding implements ExecutionController.Binding {
     }
     
     @Override
-    public AccountController getAccountController(String id) {
+    public AccountController getAccountController() {
         return this.accntController;
     }
 
     @Override
-    public OrderBookProvider getOrderBookProvider(String id) {
+    public OrderBookProvider getOrderBookProvider() {
         return this.orderBookProvider;
     }
 
     @Override
-    public OrderProvider getOrderProvider(String id) {
+    public OrderProvider getOrderProvider() {
         return this.orderProvider;
     }
 
     @Override
-    public TradeExecutor getTradeExecutor(String id) {
+    public TradeExecutor getTradeExecutor() {
         return this.tradeExecutor;
     }
 }

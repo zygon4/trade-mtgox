@@ -24,12 +24,12 @@ public class MtGoxTradeExecutor implements TradeExecutor {
     }
 
     @Override
-    public void cancel(String orderId) throws ExchangeException {
+    public void cancel(String username, String orderId) throws ExchangeException {
         this.mtGoxPollingTradeService.cancelOrder(orderId);
     }
     
     @Override
-    public String execute(Order order) throws ExchangeException {
+    public String execute(String username, Order order) throws ExchangeException {
         
         String orderId = null;
         

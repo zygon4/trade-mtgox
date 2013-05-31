@@ -21,7 +21,7 @@ public class MtGoxAcctController implements AccountController {
     }
     
     @Override
-    public AccountInfo getAccountInfo() {
+    public AccountInfo getAccountInfo(String username) {
         return this.accountService.getAccountInfo();
     }
 }

@@ -33,7 +33,7 @@ public class MtGoxOrderBookProvider implements OrderBookProvider {
     }
 
     @Override
-    public void getOrderBook(OrderBook orders, String tradeableIdentifer, String currency) {
+    public void getOrderBook(String username, OrderBook orders, String tradeableIdentifer, String currency) {
         OrderBook openOrders = this.mtGoxPollingMarketDataService.getPartialOrderBook(tradeableIdentifer, currency);
         
         orders.getAsks().addAll(openOrders.getAsks());
