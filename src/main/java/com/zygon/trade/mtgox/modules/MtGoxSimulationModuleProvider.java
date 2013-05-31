@@ -12,6 +12,8 @@ import com.zygon.trade.execution.ExecutionController;
 import com.zygon.trade.execution.MarketConditions;
 import com.zygon.trade.execution.simulation.SimulationBinding;
 import com.zygon.trade.market.model.indication.InformationManager;
+import com.zygon.trade.modules.execution.ExecutionModule;
+import com.zygon.trade.modules.model.InformationModule;
 import com.zygon.trade.strategy.Trade;
 import com.zygon.trade.strategy.TradeAgent;
 import com.zygon.trade.strategy.trade.BBTrader;
@@ -40,19 +42,13 @@ public class MtGoxSimulationModuleProvider implements ModuleProvider {
     }
     
     // Funny story.. This won't compile without these Trades. Gotta implement your own!
-    private static TradeAgent getSimulationTrader(MarketConditions marketConditions) {
+    private static TradeAgent getSimulationTrader(ExecutionController execController) {
         List<Trade> trades = new ArrayList<>();
-        
-        ExecutionController execController = new ExecutionController(new SimulationBinding("joe", 
-                new Wallet[]{
-                    new Wallet(CurrencyUnit.USD.getCurrencyCode(), BigMoney.of(CurrencyUnit.USD, 30.0)), 
-                    new Wallet(CurrencyUnit.of(Currencies.BTC).getCurrencyCode(), BigMoney.of(CurrencyUnit.of(Currencies.BTC), 1.8))
-                }, 
-                marketConditions));
         
         trades.add(new Trade(new MACDTrade("joe-id-macd", execController)));
         trades.add(new Trade(new BBTrader("joe-id-bb", execController)));
         trades.add(new Trade(new SimpleStrategy("joe-id-Simple", execController)));
+//        trades.add(new Trade(new VOLRSI("joe-id-volrsi", execController)));
         
         return new TradeAgent(trades);
     }
@@ -62,12 +58,23 @@ public class MtGoxSimulationModuleProvider implements ModuleProvider {
         
         if (LIVE) {
             MarketConditions marketConditions = new MarketConditions("MtGoxSimulation", Currencies.BTC);
+            
+            SimulationBinding simulationBinding = new SimulationBinding("joe", 
+                    new Wallet[]{
+                        new Wallet(CurrencyUnit.USD.getCurrencyCode(), BigMoney.of(CurrencyUnit.USD, 30.0)), 
+                        new Wallet(CurrencyUnit.of(Currencies.BTC).getCurrencyCode(), BigMoney.of(CurrencyUnit.of(Currencies.BTC), 1.8))
+                    }, 
+                    marketConditions);
 
+            ExecutionController execController = new ExecutionController(simulationBinding);
+            
             Module[] modules = new Module[] {
-                new MtGoxStack(
-                    "MtGoxSimulationStack", 
-                    new MtGoxTickerData("MtGoxSimulationTickerData"), 
-                    getInformationLayer("MtGoxSimulationInformationLayer", marketConditions, getSimulationTrader(marketConditions)))
+                new ExecutionModule("MtGoxSimulationExecution", 
+                    new InformationModule(
+                        "MtGoxSimulationStack", 
+                        new MtGoxTickerData("MtGoxSimulationTickerData"), 
+                        getInformationLayer("MtGoxSimulationInformationLayer", marketConditions, getSimulationTrader(execController))),
+                    simulationBinding)
             };
 
             return modules;
