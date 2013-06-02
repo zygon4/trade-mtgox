@@ -50,7 +50,7 @@ public class MtGoxSimulationModuleProvider implements ModuleProvider {
         trades.add(new Trade(new SimpleStrategy("joe-id-Simple", execController)));
 //        trades.add(new Trade(new VOLRSI("joe-id-volrsi", execController)));
         
-        return new TradeAgent(trades);
+        return new TradeAgent("SimulationTrader", trades);
     }
     
     @Override
