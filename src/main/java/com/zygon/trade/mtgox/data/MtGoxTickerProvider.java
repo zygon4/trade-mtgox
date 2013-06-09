@@ -28,7 +28,7 @@ public class MtGoxTickerProvider extends MtGoxDataProvider<Ticker> {
     private boolean hasHistoricData = false;
     
     public MtGoxTickerProvider(String tradableIdentifier, String currency) {
-        super("Ticker Provider", 15, TimeUnit.SECONDS, tradableIdentifier, currency);
+        super("Ticker Provider", 30, TimeUnit.SECONDS, tradableIdentifier, currency);
     }
 
     @Override
