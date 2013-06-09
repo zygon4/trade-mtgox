@@ -26,7 +26,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
         return in.getAsk().plus(in.getBid()).dividedBy(2, RoundingMode.UP).getAmount().doubleValue();
     }
     
-    private static final int TICKS_PER_MINUTE = 4;
+    private static final int TICKS_PER_MINUTE = 2;
     
     private static final int HOURS_IN_DAY = 24;
     private static final int MINUTES_IN_HOUR = 60;
