@@ -65,8 +65,8 @@ public class MtGoxSimulationModuleProvider implements ModuleProvider {
 
                 SimulationBinding simulationBinding = new SimulationBinding("joe", 
                         new Wallet[]{
-                            new Wallet(CurrencyUnit.USD.getCurrencyCode(), BigMoney.of(CurrencyUnit.USD, 30.0)), 
-                            new Wallet(CurrencyUnit.of(Currencies.BTC).getCurrencyCode(), BigMoney.of(CurrencyUnit.of(Currencies.BTC), 1.8))
+                            new Wallet(CurrencyUnit.USD.getCurrencyCode(), BigMoney.of(CurrencyUnit.USD, 20000.0)), 
+                            new Wallet(CurrencyUnit.of(Currencies.BTC).getCurrencyCode(), BigMoney.of(CurrencyUnit.of(Currencies.BTC), 100.0))
                         }, 
                         marketConditions);
 
