@@ -7,7 +7,7 @@ package com.zygon.trade.mtgox.data;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.mtgox.v2.MtGoxExchange;
 import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxPollingMarketDataService;
-import com.zygon.trade.market.data.provider.AbstractDataProvider;
+import com.zygon.trade.market.data.AbstractDataProvider;
 import java.util.concurrent.TimeUnit;
 
 /**

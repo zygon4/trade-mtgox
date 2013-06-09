@@ -5,24 +5,43 @@
 package com.zygon.trade.mtgox.data;
 
 import com.zygon.trade.market.Message;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import org.joda.money.BigMoney;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author zygon
  */
-public class Ticker extends Message {
+
+@Entity
+@Table(name="ticker", schema = "mtgox@cassandra_pu")
+public class Ticker extends Message implements Serializable {
     
-    private final String tradableIdentifier;
-    private final  BigMoney last;
-    private final  BigMoney bid;
-    private final  BigMoney ask;
-    private final  BigMoney high;
-    private final  BigMoney low;
-    private final  BigDecimal volume;
-    private final long timestamp;
+    @Column(name="tradeable_id")
+    private String tradableIdentifier;
+    @Column(name="last_price")
+    private BigMoney last;
+    @Column(name="bid")
+    private BigMoney bid;
+    @Column(name="ask")
+    private BigMoney ask;
+    @Column(name="high")
+    private BigMoney high;
+    @Column(name="low")
+    private BigMoney low;
+    @Column(name="volume")
+    private BigDecimal volume;
+    
+    @Id
+    @Column(name="ts")
+    private long ts;
     
     public Ticker(String tradableIdentifier, BigMoney last, BigMoney bid, BigMoney ask, BigMoney high, BigMoney low, BigDecimal volume, long timestamp) {
         this.tradableIdentifier = tradableIdentifier;
@@ -32,7 +51,7 @@ public class Ticker extends Message {
         this.high = high;
         this.low = low;
         this.volume = volume;
-        this.timestamp = timestamp;
+        this.ts = timestamp;
     }
 
     public Ticker(String tradableIdentifier, BigMoney last, BigMoney bid, BigMoney ask, BigMoney high, BigMoney low, BigDecimal volume) {
@@ -43,7 +62,10 @@ public class Ticker extends Message {
         this (tick.getTradableIdentifier(), tick.getLast(), tick.getBid(), tick.getAsk(), 
                 tick.getHigh(), tick.getLow(), tick.getVolume(), tick.getTimestamp().getTime());
     }
-    
+
+    public Ticker() {
+    }
+
     public BigMoney getAsk() {
         return ask;
     }
@@ -73,12 +95,40 @@ public class Ticker extends Message {
     }
 
     public long getTimestamp() {
-        return timestamp;
+        return ts;
+    }
+
+    public void setAsk(BigMoney ask) {
+        this.ask = ask;
+    }
+
+    public void setBid(BigMoney bid) {
+        this.bid = bid;
+    }
+
+    public void setHigh(BigMoney high) {
+        this.high = high;
+    }
+
+    public void setLast(BigMoney last) {
+        this.last = last;
+    }
+
+    public void setLow(BigMoney low) {
+        this.low = low;
+    }
+
+    public void setTradableIdentifier(String tradableIdentifier) {
+        this.tradableIdentifier = tradableIdentifier;
+    }
+
+    public void setVolume(BigDecimal volume) {
+        this.volume = volume;
     }
 
     @Override
     public String toString() {
-        return String.format("%s, last %d, bid %d, ask %d, high %d, low %d, volume %d %s", 
+        return String.format("%s: last %s, bid %s, ask %s, high %s, low %s, volume %s %s", 
                 this.tradableIdentifier,
                 this.last.getAmount().toPlainString(),
                 this.bid.getAmount().toPlainString(),
@@ -86,6 +136,6 @@ public class Ticker extends Message {
                 this.high.getAmount().toPlainString(),
                 this.low.getAmount().toPlainString(),
                 this.volume.toPlainString(),
-                new Date(this.timestamp));
+                new Date(this.ts));
     }
 }
