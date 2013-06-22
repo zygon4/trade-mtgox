@@ -8,7 +8,7 @@ import com.zygon.trade.market.Message;
 import com.zygon.trade.market.model.indication.Aggregation;
 import com.zygon.trade.market.model.indication.numeric.Volatility;
 import com.zygon.trade.market.util.MovingAverage;
-import com.zygon.trade.mtgox.data.Ticker;
+import com.zygon.trade.market.data.Ticker;
 import static com.zygon.trade.mtgox.data.interpreter.MtGoxTickerInterpreter.getWindow;
 
 /**

@@ -13,7 +13,7 @@ import com.zygon.trade.market.data.PersistentDataLogger;
 import com.zygon.trade.market.model.indication.Aggregation;
 import com.zygon.trade.modules.data.DataModule;
 import com.zygon.trade.mtgox.data.MtGoxTickerProvider;
-import com.zygon.trade.mtgox.data.Ticker;
+import com.zygon.trade.market.data.Ticker;
 import com.zygon.trade.mtgox.data.interpreter.BBInterpreter;
 import com.zygon.trade.mtgox.data.interpreter.TickerMACD;
 import com.zygon.trade.mtgox.data.interpreter.TickerPriceInterpreter;

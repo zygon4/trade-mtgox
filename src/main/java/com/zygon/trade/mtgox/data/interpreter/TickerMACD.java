@@ -10,7 +10,7 @@ import com.zygon.trade.market.model.indication.market.MACD;
 import com.zygon.trade.market.model.indication.market.MACDSignalCross;
 import com.zygon.trade.market.model.indication.market.MACDZeroCross;
 import com.zygon.trade.market.util.ExponentialMovingAverage;
-import com.zygon.trade.mtgox.data.Ticker;
+import com.zygon.trade.market.data.Ticker;
 import java.util.ArrayList;
 import java.util.List;
 

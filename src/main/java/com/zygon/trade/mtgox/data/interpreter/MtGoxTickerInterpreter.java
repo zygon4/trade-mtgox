@@ -6,7 +6,7 @@ package com.zygon.trade.mtgox.data.interpreter;
 
 import com.zygon.trade.market.data.DataProcessor;
 import com.zygon.trade.market.model.indication.Aggregation;
-import com.zygon.trade.mtgox.data.Ticker;
+import com.zygon.trade.market.data.Ticker;
 import java.math.RoundingMode;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.HOURS;
